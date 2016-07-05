@@ -28,7 +28,7 @@ public enum WordplaysLookup {
         DispatchQueue.global().async {
             guard let
                 response = try? String(contentsOf: url),
-                openTagRange = response.range(of: "<td class=\"defword\">"),
+                openTagRange = response.range(of: "<td class=defword>"),
                 closeTagRange = response.substring(from: openTagRange.upperBound).range(of: "</td>") else {
                 complete()
                 return
