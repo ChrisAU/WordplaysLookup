@@ -12,7 +12,7 @@ import Foundation
 
 public enum WordplaysLookup {
     
-    static func find(word: String, completion: (definition: String?) -> ()) {
+    public static func find(word: String, completion: (definition: String?) -> ()) {
         let sanitisedWord = word.lowercased().trimmingCharacters(in: CharacterSet.lowercaseLetters.inverted)
         guard let url = URL(string: "http://www.wordplays.com/definition/\(sanitisedWord)") else {
             completion(definition: nil)
