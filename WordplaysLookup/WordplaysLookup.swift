@@ -56,16 +56,26 @@ public enum WordplaysLookup {
                 return
             }
             
-            if let startSeeIndex = definition.range(of: "<a href='/definition/")?.upperBound, endSeeIndex = definition.substring(from: startSeeIndex).range(of: "'>")?.lowerBound {
-                let referenceWord = definition
-                    .substring(from: startSeeIndex)
-                    .substring(to: endSeeIndex)
-                _find(word: referenceWord, originalWord: sanitisedWord, completion: completion)
+            func hasSeeWord(prefix: String, suffix: String) -> Bool {
+                if let startSeeIndex = definition.range(of: prefix)?.upperBound, endSeeIndex = definition.substring(from: startSeeIndex).range(of: suffix)?.lowerBound {
+                    let referenceWord = definition
+                        .substring(from: startSeeIndex)
+                        .substring(to: endSeeIndex)
+                    _find(word: referenceWord, originalWord: sanitisedWord, completion: completion)
+                    return true
+                }
+                return false
+            }
+            
+            if hasSeeWord(prefix: "<a href='/definition/", suffix: "'>") {
+                return
+            } else if hasSeeWord(prefix: "<a href=\"/definition/", suffix: "\">") {
                 return
             }
             
             complete(definition: definition)
         }
     }
+    
     
 }
