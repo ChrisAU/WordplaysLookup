@@ -38,10 +38,10 @@ public enum WordplaysLookup {
         }
         
         DispatchQueue.global().async {
-            guard let
-                response = try? String(contentsOf: url),
-                openTagIndex = response.range(of: "<td class=defword>")?.upperBound,
-                closeTagIndex = response.substring(from: openTagIndex).range(of: "</td>")?.lowerBound else {
+            guard
+                let response = try? String(contentsOf: url),
+                let openTagIndex = response.range(of: "<td class=defword>")?.upperBound,
+                let closeTagIndex = response.substring(from: openTagIndex).range(of: "</td>")?.lowerBound else {
                     complete()
                     return
             }
@@ -57,7 +57,8 @@ public enum WordplaysLookup {
             }
             
             func hasSeeWord(prefix: String, suffix: String) -> Bool {
-                if let startSeeIndex = definition.range(of: prefix)?.upperBound, endSeeIndex = definition.substring(from: startSeeIndex).range(of: suffix)?.lowerBound {
+                if let startSeeIndex = definition.range(of: prefix)?.upperBound,
+                    let endSeeIndex = definition.substring(from: startSeeIndex).range(of: suffix)?.lowerBound {
                     let referenceWord = definition
                         .substring(from: startSeeIndex)
                         .substring(to: endSeeIndex)
