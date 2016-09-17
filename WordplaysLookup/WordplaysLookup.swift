@@ -12,27 +12,27 @@ import Foundation
 
 public enum WordplaysLookup {
     
-    public static func find(word: String, completion: (definition: String?) -> ()) {
+    public static func find(word: String, completion: @escaping (String?) -> ()) {
         _find(word: word, completion: completion)
     }
     
-    private static func _find(word: String, originalWord: String? = nil, completion: (definition: String?) -> ()) {
+    private static func _find(word: String, originalWord: String? = nil, completion: @escaping (String?) -> ()) {
         let sanitisedWord = word.lowercased().trimmingCharacters(in: CharacterSet.lowercaseLetters.inverted)
         guard let url = URL(string: "http://www.wordplays.com/definition/\(sanitisedWord)") else {
-            completion(definition: nil)
+            completion(nil)
             return
         }
         
         func complete(definition: String? = nil) {
             DispatchQueue.main.async {
                 guard let definition = definition else {
-                    completion(definition: nil)
+                    completion(nil)
                     return
                 }
                 if let originalWord = originalWord {
-                    completion(definition: originalWord + " or " + definition)
+                    completion(originalWord + " or " + definition)
                 } else {
-                    completion(definition: definition)
+                    completion(definition)
                 }
             }
         }
